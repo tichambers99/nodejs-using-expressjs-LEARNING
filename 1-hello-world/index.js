@@ -1,11 +1,39 @@
-var express = require('express');
-var app = express();
-var port = 3000;
+const express = require('express');
+const app = express();
+const port = 3000;
 
-app.get('/',function(request, response){
-    response.send('<h1>Hello world<h1><hr>');
+app.set('view engine', 'pug')
+app.set('views', './views')
+
+var users = [
+    {id: 1, name: 'Loi'},
+    {id: 2, name: 'Hung'},
+    {id: 3, name: 'Khang'}
+];
+
+app.get('/', function(req, res){
+    res.render('index',{
+        name: 'Khanh'
+    });
+});
+
+app.get('/users',function(req, res){
+    res.render('users/index',{
+        users: users
+    });
+});
+
+app.get('/users/search',function(req, res){
+    var q = req.query.q;
+    var matchUser = users.filter(function(user){
+        return user.name.toLowerCase().indexOf(q.toLowerCase()) !==-1;
+    })
+    console.log(req.query);
+    res.render('users/index',{
+        users: matchUser
+    });
 })
 
 app.listen(port,function(){
-    console.log('listening port'+ port);
+    console.log(`example app listening at http://localhost:${port}`)
 })
