@@ -1,7 +1,11 @@
 h2 User list
+a(href="/users/create") create new user
 form(action="users/search",method="GET")
     input(type="text", name="q", placeholder="Type something")
     button Search
 ul
     each user in users
-        li=user.name
+        li
+            span=user.name
+            a(href='/users/' + user.id) 
+                button View profile
